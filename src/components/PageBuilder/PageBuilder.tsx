@@ -49,8 +49,10 @@ const Primary = () => {
     })
     //Clear the editor
     localStorage.clear();
+
+    //TODO Error "Cannot read properties of null" appears when local storage is cleared. Find a way to fix it.
   }, []);
-  console.log(isLoading)
+
 
   return (
     <div id="wrapper">
