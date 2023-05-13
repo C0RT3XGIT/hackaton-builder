@@ -5,9 +5,11 @@ import plugin from 'grapesjs-blocks-basic'
 import { useEffect, useState } from "react";
 import './style.css';
 import { bogdanHTML } from 'templates/templateString'
-
+import Lottie, {useLottie} from "lottie-react";
+import loadingAnimation from "assets/paperplane-loading.json"
 
 const Primary = () => {
+  const [isLoading, setLoading] = useState(true);
   const templateData = {
     eventName: "Stas",
     eventDescription: "Stas",
@@ -18,6 +20,12 @@ const Primary = () => {
     targetAudience: "Stas",
   }
   const htmlToRender = bogdanHTML(templateData);
+  const lootieOptions = {
+    animationData: loadingAnimation,
+    loop: true
+  };
+
+  const {View} = useLottie(lootieOptions);
 
   useEffect(() => {
     const editor = grapesjs.init({
@@ -37,13 +45,23 @@ const Primary = () => {
     editor.on("load", () => {
       // @ts-ignore
       editor.addComponents(htmlToRender);
+      setLoading(false);
     })
     //Clear the editor
     localStorage.clear();
   }, []);
+  console.log(isLoading)
 
   return (
-      <div id="gjs"/ >
+    <div id="wrapper">
+      <div id="gjs" style={{display: isLoading ? "none" : "block"}}/ >
+      {
+        isLoading &&
+        <div id="loader">
+          {View}
+        </div>
+      }
+    </div>
     )
 };
 
