@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useRef} from 'react';
+import EmailEditor from "react-email-editor"
 
 function App() {
+  const emailEditorRef = useRef(null);
+
+  const onReady = () => {
+    console.log(11)
+  }
+
+  const exportHtml = () => {
+    //   @ts-ignore
+    emailEditorRef?.current?.editor.exportHtml((data) => {
+      const { design, html } = data;
+      console.log('exportHtml', html);
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello world</h1>
+      <div>
+        <button onClick={exportHtml}>Export HTML</button>
+      </div>
+      <EmailEditor ref={emailEditorRef} onReady={onReady} />
     </div>
   );
 }
